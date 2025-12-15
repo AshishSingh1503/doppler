@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../api';
+import GitHubAuth from '../components/GitHubAuth';
 import './Auth.css';
 
 function Login({ setAuth }) {
@@ -44,6 +45,13 @@ function Login({ setAuth }) {
           />
           <button type="submit">Login</button>
         </form>
+        
+        <div className="auth-divider">
+          <span>or</span>
+        </div>
+        
+        <GitHubAuth onSuccess={() => navigate('/dashboard')} />
+        
         <p>Don't have an account? <Link to="/register">Register</Link></p>
       </div>
     </div>

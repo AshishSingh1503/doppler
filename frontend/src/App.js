@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CreateProject from './pages/CreateProject';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={!isAuthenticated ? <Login setAuth={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
         <Route path="/register" element={!isAuthenticated ? <Register setAuth={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={isAuthenticated ? <Dashboard setAuth={setIsAuthenticated} /> : <Navigate to="/login" />} />
+        <Route path="/create" element={isAuthenticated ? <CreateProject /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

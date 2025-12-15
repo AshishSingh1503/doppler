@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { projectAPI } from '../api';
 import ProjectForm from '../components/ProjectForm';
 import ProjectList from '../components/ProjectList';
@@ -45,8 +45,11 @@ function Dashboard({ setAuth }) {
 
       <div className="dashboard-content">
         <div className="sidebar">
-          <button onClick={() => setShowForm(!showForm)} className="new-project-btn">
-            + New Project
+          <Link to="/create" className="new-project-btn">
+            🚀 Import from GitHub
+          </Link>
+          <button onClick={() => setShowForm(!showForm)} className="manual-project-btn">
+            + Manual Project
           </button>
           {showForm && <ProjectForm onSuccess={handleProjectCreated} onCancel={() => setShowForm(false)} />}
           <ProjectList projects={projects} onSelect={setSelectedProject} selectedId={selectedProject?.id} />

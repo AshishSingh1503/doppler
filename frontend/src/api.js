@@ -27,4 +27,9 @@ export const projectAPI = {
   getDeployments: (id) => api.get(`/projects/${id}/deployments`),
 };
 
+export const githubAPI = {
+  getRepos: () => api.get('/github/repos'),
+  authCallback: (code) => api.post('/auth/github/callback', { code }),
+};
+
 export default api;
