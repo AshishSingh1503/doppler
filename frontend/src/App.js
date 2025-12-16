@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import CreateProject from './pages/CreateProject';
+import GitHubCallback from './pages/GitHubCallback';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={!isAuthenticated ? <Register setAuth={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={isAuthenticated ? <Dashboard setAuth={setIsAuthenticated} /> : <Navigate to="/login" />} />
         <Route path="/create" element={isAuthenticated ? <CreateProject /> : <Navigate to="/login" />} />
+        <Route path="/auth/github/callback" element={<GitHubCallback setAuth={setIsAuthenticated} />} />
       </Routes>
     </Router>
   );
