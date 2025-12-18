@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { projectAPI } from '../api';
+import { projectAPI } from '../api/api';
 import './ProjectForm.css';
 
 function ProjectForm({ onSuccess, onCancel }) {

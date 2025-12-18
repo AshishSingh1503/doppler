@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authAPI } from '../api';
+import { authAPI } from '../api/api.js';
 import './Auth.css';
 
 function Login({ setAuth }) {
@@ -26,7 +26,9 @@ function Login({ setAuth }) {
       <div className="auth-card">
         <h1>🚀 Doppler</h1>
         <h2>Login</h2>
+
         {error && <div className="error">{error}</div>}
+
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -44,7 +46,16 @@ function Login({ setAuth }) {
           />
           <button type="submit">Login</button>
         </form>
-        <p>Don't have an account? <Link to="/register">Register</Link></p>
+
+        <div className="divider">OR</div>
+
+        <button className="oauth-btn github" onClick={authAPI.githubLogin}>
+          Login with GitHub
+        </button>
+
+        <p>
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </div>
     </div>
   );

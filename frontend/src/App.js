@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import AuthSuccess from "./pages/AuthSuccess";
 import './App.css';
 
 function App() {
@@ -14,6 +15,10 @@ function App() {
     setIsAuthenticated(!!token);
   }, []);
 
+  const setAuth = (val) => {
+    // your existing auth logic
+  };
+
   return (
     <Router>
       <Routes>
@@ -21,6 +26,7 @@ function App() {
         <Route path="/login" element={!isAuthenticated ? <Login setAuth={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
         <Route path="/register" element={!isAuthenticated ? <Register setAuth={setIsAuthenticated} /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={isAuthenticated ? <Dashboard setAuth={setIsAuthenticated} /> : <Navigate to="/login" />} />
+        <Route path="/auth/success" element={<AuthSuccess setAuth={setAuth} />} />
       </Routes>
     </Router>
   );

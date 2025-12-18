@@ -72,7 +72,7 @@ function Landing() {
       </section>
 
       <footer className="landing-footer">
-        <p>© 2024 Doppler. Built with ❤️ for developers.</p>
+        <p>© 2025 Doppler. Built with ❤️ for developers.</p>
       </footer>
     </div>
   );

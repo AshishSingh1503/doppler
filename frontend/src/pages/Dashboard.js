@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { projectAPI } from '../api';
+import { projectAPI } from '../api/api';
 import ProjectForm from '../components/ProjectForm';
 import ProjectList from '../components/ProjectList';
 import DeploymentHistory from '../components/DeploymentHistory';

@@ -1,0 +1,23 @@
+{
+  "name": "doppler",
+  "version": "1.0.0",
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\r [![Node.js](https://img.shields.io/badge/Node.js-v16+-green.svg)](https://nodejs.org/)\r [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)\r [![AWS](https://img.shields.io/badge/AWS-Powered-orange.svg)](https://aws.amazon.com/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm start --prefix frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AshishSingh1503/doppler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AshishSingh1503/doppler/issues"
+  },
+  "homepage": "https://github.com/AshishSingh1503/doppler#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
