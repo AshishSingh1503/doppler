@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authAPI } from '../api/api';
-import './Auth.css';
+import { authAPI } from '../api/auth.api.js';
+import '../styles/Auth.css';
 
 function Register({ setAuth }) {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -12,12 +12,15 @@ function Register({ setAuth }) {
     e.preventDefault();
     setError('');
     try {
-      const { data } = await authAPI.register(formData);
-      localStorage.setItem('token', data.token);
-      setAuth(true);
-      navigate('/dashboard');
+      const res = await authAPI.register(formData);
+      if (res.data.success) {
+        setAuth(true);
+        navigate('/dashboard');
+      } else {
+        setError('Registration failed');
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError('Something went wrong. Try again.');
     }
   };
 

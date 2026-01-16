@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { projectAPI } from '../api/api';
-import './ProjectForm.css';
+import { projectAPI } from '../api/project.api.js';
+import '../styles/ProjectForm.css';
 
 function ProjectForm({ onSuccess, onCancel }) {
   const [formData, setFormData] = useState({

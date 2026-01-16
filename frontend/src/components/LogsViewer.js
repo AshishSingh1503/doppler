@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { projectAPI } from '../api';
-import './LogsViewer.css';
+import { projectAPI } from '../api/project.api.js';
+import '../styles/LogsViewer.css';
 
 function LogsViewer({ projectId }) {
   const [logs, setLogs] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authAPI } from '../api/api.js';
-import './Auth.css';
+import { authAPI } from '../api/auth.api.js';
+import '../styles/Auth.css';
 
 function Login({ setAuth }) {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -12,12 +12,16 @@ function Login({ setAuth }) {
     e.preventDefault();
     setError('');
     try {
-      const { data } = await authAPI.login(formData);
-      localStorage.setItem('token', data.token);
-      setAuth(true);
-      navigate('/dashboard');
+      const res= await authAPI.login(formData);
+      console.log(res);
+      if (res.data.success) {
+        setAuth(true);
+        navigate('/dashboard');
+      } else {
+        setError('Login failed');
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError('Something went wrong. Try again.');
     }
   };
 

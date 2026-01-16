@@ -1,5 +1,5 @@
 import React from 'react';
-import './ProjectList.css';
+import '../styles/ProjectList.css';
 
 function ProjectList({ projects, onSelect, selectedId }) {
   return (

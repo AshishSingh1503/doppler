@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { projectAPI } from '../api/api';
-import './DeploymentHistory.css';
+import { projectAPI } from '../api/project.api.js';
+import '../styles/DeploymentHistory.css';
 
 function DeploymentHistory({ projectId }) {
   const [deployments, setDeployments] = useState([]);

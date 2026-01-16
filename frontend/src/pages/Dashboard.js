@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { projectAPI } from '../api/api';
+import { authAPI } from '../api/auth.api.js';
+import { projectAPI } from '../api/project.api.js';
 import ProjectForm from '../components/ProjectForm';
 import ProjectList from '../components/ProjectList';
 import DeploymentHistory from '../components/DeploymentHistory';
-import './Dashboard.css';
+import '../styles/Dashboard.css';
 
 function Dashboard({ setAuth }) {
   const [projects, setProjects] = useState([]);
@@ -25,10 +26,12 @@ function Dashboard({ setAuth }) {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setAuth(false);
-    navigate('/login');
+  const handleLogout = async () => {
+    const res =await authAPI.logout({})
+    if (res.data.message) {
+      setAuth(false);
+      navigate('/login');
+    }
   };
 
   const handleProjectCreated = () => {
