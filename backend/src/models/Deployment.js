@@ -6,16 +6,96 @@ const deploymentSchema = new mongoose.Schema({
     ref: 'Project',
     required: true
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   commit: {
     type: String
   },
+  branch: {
+    type: String
+  },
+  repo: {
+    provider: {
+      type: String,
+      enum: ['github'],
+      default: 'github'
+    },
+    owner: {
+      type: String
+    },
+    name: {
+      type: String
+    },
+    url: {
+      type: String
+    },
+    installationId: {
+      type: String
+    }
+  },
+  build: {
+    dockerfilePath: {
+      type: String,
+      default: 'Dockerfile'
+    },
+    imageTag: {
+      type: String
+    },
+    imageDigest: {
+      type: String
+    },
+    startedAt: {
+      type: Date
+    },
+    finishedAt: {
+      type: Date
+    }
+  },
+  storage: {
+    provider: {
+      type: String,
+      enum: ['s3'],
+      default: 's3'
+    },
+    bucket: {
+      type: String
+    },
+    key: {
+      type: String
+    },
+    region: {
+      type: String
+    },
+    signedUrlExpiresAt: {
+      type: Date
+    }
+  },
+  proxy: {
+    targetUrl: {
+      type: String
+    },
+    publicUrl: {
+      type: String
+    }
+  },
   status: {
     type: String,
-    enum: ['pending', 'building', 'success', 'failed'],
+    enum: ['pending', 'queued', 'building', 'uploading', 'deploying', 'success', 'failed'],
     default: 'pending'
   },
   duration: {
     type: String
+  },
+  error: {
+    code: {
+      type: String
+    },
+    message: {
+      type: String
+    }
   },
   logs: [{
     level: {
