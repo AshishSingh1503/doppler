@@ -32,6 +32,16 @@ module "ec2" {
   environment         = var.environment
 }
 
+module "nginx" {
+  source               = "./modules/nginx"
+  instance_type        = var.instance_type
+  key_name             = var.key_name
+  iam_instance_profile = module.iam.instance_profile_name
+  s3_bucket_name       = module.s3.bucket_name
+  aws_region           = var.aws_region
+  environment          = var.environment
+}
+
 output "s3_bucket_name" {
   value = module.s3.bucket_name
 }
@@ -46,4 +56,12 @@ output "ec2_public_ip" {
 
 output "ec2_instance_id" {
   value = module.ec2.instance_id
+}
+
+output "nginx_public_ip" {
+  value = module.nginx.nginx_public_ip
+}
+
+output "nginx_instance_id" {
+  value = module.nginx.nginx_instance_id
 }

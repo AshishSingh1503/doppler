@@ -5,6 +5,7 @@ const { connectDB } = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const githubRoutes = require('./routes/githubRoutes');
+const proxyRoutes = require('./routes/proxyRoutes');
 const deploymentRoutes = require('./routes/deploymentRoutes');
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/github', githubRoutes);
+app.use('/api/proxy', proxyRoutes);
 app.use('/api/deployments', deploymentRoutes);
 
 // Health check
