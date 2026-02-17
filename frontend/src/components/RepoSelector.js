@@ -17,6 +17,9 @@ function RepoSelector({ onRepoSelect, selectedRepo }) {
       setRepos(data);
     } catch (error) {
       console.error('Failed to fetch repos:', error);
+      if (error.response?.status === 400) {
+        alert('Please login with GitHub to access repositories');
+      }
     } finally {
       setLoading(false);
     }

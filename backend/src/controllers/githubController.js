@@ -30,8 +30,12 @@ exports.githubCallback = async (req, res) => {
         email: githubUser.email || `${githubUser.login}@github.local`,
         githubId: githubUser.id.toString(),
         avatar: githubUser.avatar_url,
+        githubAccessToken: accessToken,
         password: 'github-oauth'
       });
+      await user.save();
+    } else {
+      user.githubAccessToken = accessToken;
       await user.save();
     }
 
@@ -53,28 +57,37 @@ exports.githubCallback = async (req, res) => {
 
 exports.getRepos = async (req, res) => {
   try {
-    const mockRepos = [
-      {
-        id: 1,
-        name: 'my-react-app',
-        full_name: 'user/my-react-app',
-        description: 'A React application',
-        language: 'JavaScript',
-        private: false,
-        clone_url: 'https://github.com/user/my-react-app.git'
-      },
-      {
-        id: 2,
-        name: 'portfolio-website',
-        full_name: 'user/portfolio-website',
-        description: 'My personal portfolio',
-        language: 'HTML',
-        private: false,
-        clone_url: 'https://github.com/user/portfolio-website.git'
-      }
-    ];
+    const user = await User.findById(req.user.id);
+    
+    if (!user || !user.githubAccessToken) {
+      return res.status(400).json({ message: 'GitHub account not linked' });
+    }
 
-    res.json(mockRepos);
+    const response = await axios.get('https://api.github.com/user/repos', {
+      headers: {
+        Authorization: `Bearer ${user.githubAccessToken}`,
+        Accept: 'application/vnd.github.v3+json'
+      },
+      params: {
+        sort: 'updated',
+        per_page: 100
+      }
+    });
+
+    const repos = response.data.map(repo => ({
+      id: repo.id,
+      name: repo.name,
+      full_name: repo.full_name,
+      description: repo.description,
+      language: repo.language,
+      private: repo.private,
+      clone_url: repo.clone_url,
+      html_url: repo.html_url,
+      updated_at: repo.updated_at,
+      default_branch: repo.default_branch
+    }));
+
+    res.json(repos);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch repositories', error: error.message });
   }

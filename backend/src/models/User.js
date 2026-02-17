@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     sparse: true
   },
+  githubAccessToken: {
+    type: String
+  },
   avatar: {
     type: String
   }
