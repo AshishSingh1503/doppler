@@ -9,8 +9,7 @@ function Landing() {
         <div className="nav-content">
           <h1>🚀 Doppler</h1>
           <div className="nav-links">
-            <Link to="/login" className="nav-link">Login</Link>
-            <Link to="/register" className="nav-btn">Get Started</Link>
+            <Link to="/login" className="nav-btn">Sign in with GitHub</Link>
           </div>
         </div>
       </nav>
@@ -23,7 +22,7 @@ function Landing() {
             with a simple git push. No DevOps knowledge required.
           </p>
           <div className="hero-buttons">
-            <Link to="/register" className="btn-primary">Start Deploying Free</Link>
+            <Link to="/login" className="btn-primary">Sign in with GitHub</Link>
             <a href="#features" className="btn-secondary">Learn More</a>
           </div>
         </div>
@@ -67,8 +66,8 @@ function Landing() {
 
       <section className="cta">
         <h2>Ready to Deploy?</h2>
-        <p>Join developers who trust Doppler for their deployments</p>
-        <Link to="/register" className="btn-primary">Get Started Now</Link>
+        <p>Sign in with GitHub and start deploying in seconds</p>
+        <Link to="/login" className="btn-primary">Sign in with GitHub</Link>
       </section>
 
       <footer className="landing-footer">

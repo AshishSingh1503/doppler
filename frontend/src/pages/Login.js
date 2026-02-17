@@ -1,58 +1,21 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { authAPI } from '../api';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import GitHubAuth from '../components/GitHubAuth';
 import './Auth.css';
 
-function Login({ setAuth }) {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+function Login() {
   const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      const { data } = await authAPI.login(formData);
-      localStorage.setItem('token', data.token);
-      setAuth(true);
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-    }
-  };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h1>🚀 Doppler</h1>
-        <h2>Login</h2>
-        {error && <div className="error">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            required
-          />
-          <button type="submit">Login</button>
-        </form>
-        
-        <div className="auth-divider">
-          <span>or</span>
-        </div>
+        <h2>Sign in to continue</h2>
+        <p className="auth-description">Deploy your projects with GitHub integration</p>
         
         <GitHubAuth onSuccess={() => navigate('/dashboard')} />
         
-        <p>Don't have an account? <Link to="/register">Register</Link></p>
+        <p className="auth-footer">By signing in, you agree to our Terms of Service</p>
       </div>
     </div>
   );
