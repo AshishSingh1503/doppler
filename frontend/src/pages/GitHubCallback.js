@@ -1,34 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { githubAPI } from '../api';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 function GitHubCallback({ setAuth }) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const handleCallback = async () => {
       const code = searchParams.get('code');
-      const error = searchParams.get('error');
+      const errorParam = searchParams.get('error');
+      const errorDescription = searchParams.get('error_description');
 
-      if (error) {
-        console.error('GitHub OAuth error:', error);
-        navigate('/login?error=github_auth_failed');
+      if (errorParam) {
+        console.error('GitHub OAuth error:', errorParam, errorDescription);
+        setError(errorDescription || 'GitHub authorization was denied');
+        setTimeout(() => navigate('/login?error=github_auth_failed'), 3000);
         return;
       }
 
-      if (code) {
-        try {
-          const { data } = await githubAPI.authCallback(code);
-          localStorage.setItem('token', data.token);
-          setAuth(true);
-          navigate('/dashboard');
-        } catch (err) {
-          console.error('GitHub callback error:', err);
-          navigate('/login?error=github_auth_failed');
+      if (!code) {
+        setError('No authorization code received');
+        setTimeout(() => navigate('/login'), 2000);
+        return;
+      }
+
+      try {
+        const { data } = await githubAPI.authCallback(code);
+        localStorage.setItem('token', data.token);
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
         }
-      } else {
-        navigate('/login');
+        setAuth(true);
+        navigate('/dashboard');
+      } catch (err) {
+        console.error('GitHub callback error:', err);
+        const errorMsg = err.response?.data?.message || 'Authentication failed';
+        setError(errorMsg);
+        setTimeout(() => navigate('/login?error=github_auth_failed'), 3000);
       }
     };
 
@@ -38,16 +49,42 @@ function GitHubCallback({ setAuth }) {
   return (
     <div style={{ 
       display: 'flex', 
+      flexDirection: 'column',
       justifyContent: 'center', 
       alignItems: 'center', 
-      height: '100vh',
-      background: '#0d1117',
-      color: '#c9d1d9'
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, var(--bg-primary) 0%, #0f1419 50%, var(--bg-primary) 100%)',
+      color: 'var(--text-primary)',
+      padding: '20px'
     }}>
-      <div>
-        <h2>🔄 Authenticating with GitHub...</h2>
-        <p>Please wait while we complete your login.</p>
-      </div>
+      {error ? (
+        <div style={{
+          textAlign: 'center',
+          maxWidth: '500px',
+          padding: '32px',
+          background: 'var(--bg-secondary)',
+          borderRadius: 'var(--radius-xl)',
+          border: '1px solid var(--border-primary)'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+          <h2 style={{ marginBottom: '12px', color: 'var(--accent-danger)' }}>Authentication Failed</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>{error}</p>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>Redirecting to login...</p>
+        </div>
+      ) : (
+        <div style={{
+          textAlign: 'center',
+          maxWidth: '500px',
+          padding: '32px',
+          background: 'var(--bg-secondary)',
+          borderRadius: 'var(--radius-xl)',
+          border: '1px solid var(--border-primary)'
+        }}>
+          <LoadingSpinner size="lg" text="" />
+          <h2 style={{ marginTop: '24px', marginBottom: '12px' }}>Authenticating with GitHub</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Please wait while we complete your login...</p>
+        </div>
+      )}
     </div>
   );
 }

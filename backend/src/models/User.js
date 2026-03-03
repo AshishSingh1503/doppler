@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   githubId: {
     type: String,
+    unique: true,
     sparse: true
   },
   githubAccessToken: {
@@ -31,5 +32,8 @@ const userSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
+
+// Index for faster GitHub user lookups
+userSchema.index({ githubId: 1 });
 
 module.exports = mongoose.model('User', userSchema);
